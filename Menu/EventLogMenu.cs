@@ -7,30 +7,26 @@ using System.Linq;
 namespace WinEventLogReader
 {
     //Список журналов
-    class EventLogMenu
+    class EventLogMenu:Menu
     {
-        static IEnumerable<string> items { get; set; } = EventLog.GetEventLogs().Select(n => n.Log);
-        static ConsoleMenu menu { get; set; } = new ConsoleMenu(items);
 
-        //Выводим список журналов как пункты меню
-        static public void PrintEventMenu()
+        public EventLogMenu()
+            : base(EventLog.GetEventLogs().Select(n => n.Log),new method[] { EventChangeLog })
         {
-            int menuResult;
-            do
-            {
-                menuResult = menu.PrintMenu();
-                if (menuResult != -1)
-                {
-                    EventChangeLog(items.ToArray()[menuResult]);
-                    Console.WriteLine("Нажмите Enter для выхода в главное меню");
-                    if (Console.ReadKey().Key == ConsoleKey.Enter)
-                    {
-                        ApplicationMainMenu.Print();
-                    }
-                }
 
-            } while (menuResult != -1);
-            ApplicationMainMenu.Print();
+        }
+
+        public override void DoMethod(int menuResult)
+        {
+            if (menuResult != -1)
+            {
+                EventChangeLog(items.ToArray()[menuResult]);
+                Console.ReadKey();
+            }
+        }
+
+        static void EventChangeLog()
+        {
         }
 
         //Делаем тут что то с выбранным журналом

@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Menu\Menu.cs" />
     <Compile Include="Menu\ApplicationMainMenu.cs" />
     <Compile Include="Menu\EventLogMenu.cs" />
     <Compile Include="EventLogReader.cs" />

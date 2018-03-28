@@ -11,10 +11,9 @@ namespace WinEventLogReader
         static void Main()
         {
             Console.Title = "Event Log Reader";
-
-
             //Вызов главного меню
-            ApplicationMainMenu.Print();
+            ApplicationMainMenu appMenu = new ApplicationMainMenu();
+            appMenu.Print();
         }
 
     }  

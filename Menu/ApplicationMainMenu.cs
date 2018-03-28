@@ -1,44 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 
 
 namespace WinEventLogReader
 {
 
     //Класс главного меню
-    class ApplicationMainMenu
+    class ApplicationMainMenu:Menu
     {
-        //Элементы меню
-        static IEnumerable<string> items { get; set; } = new string[] { "Выбрать журнал", "Настройки", "Выход" };
-        //Меню
-        static ConsoleMenu menu { get; set; } = menu = new ConsoleMenu(items);
-
-        static public void Print()
-        {
-            //Методы меню 
-            method[] methods = new method[] { ShowEnentLogs, Settings, Exit };
-
-            //Выбранное меню
-            int menuResult;
-            do
-            {
-                menuResult = menu.PrintMenu();
-                //Выполняем действие меню
-                if (menuResult != -1) methods[menuResult]();
-            } while (true);
-        }
-
-        delegate void method();
-
+        public ApplicationMainMenu()
+            : base(new string[] { "Выбрать журнал", "Настройки", "Выход" }, new method[] { ShowEnentLogs, Settings, Exit })
+        { }
+       
         //Выводим список журналов на локальном компьютере
         static void ShowEnentLogs()
         {
-            EventLogMenu.PrintEventMenu();
+            EventLogMenu evMenu = new EventLogMenu();
+            evMenu.Print();
         }
 
         static void Settings()
         {
-            SettingsMenu.Print();
+            SettingsMenu setMenu = new SettingsMenu();
+             setMenu.Print();
         }
 
         //Выход из приложения
