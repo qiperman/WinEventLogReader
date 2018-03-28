@@ -7,9 +7,9 @@ namespace WinEventLogReader
 {
     class ConsoleMenu
     {
-        protected string[] menuItems;
-        protected int counter = 0;
-        protected Type type = typeof(ConsoleColor);
+        protected string[] menuItems; //массив списка меню
+        protected int counter = 0;//Счетчик пункта меню
+        protected Type type = typeof(ConsoleColor); 
 
         public ConsoleMenu(IEnumerable<string> menuItems)
         {
@@ -19,13 +19,15 @@ namespace WinEventLogReader
 
         public int PrintMenu()
         {
-            Console.BackgroundColor = (ConsoleColor)Enum.Parse(typeof(ConsoleColor), ConfigurationManager.AppSettings.Get("ConsoleColor"));
+            Console.BackgroundColor = (ConsoleColor)Enum.Parse(typeof(ConsoleColor), ConfigurationManager.AppSettings.Get("ConsoleColor")); //Устанавливаем цвет консоли из настроек
             ConsoleKeyInfo key;
             do
             {
-                Console.Clear();
+                Console.Clear(); // очищаем консоль
 
-                PrintElementsMenu();
+                PrintElementsMenu(); // выводим элементы меню
+                
+                //перемещение по меню
                 key = Console.ReadKey();
                 if (key.Key == ConsoleKey.UpArrow)
                 {
@@ -43,7 +45,7 @@ namespace WinEventLogReader
                 }
 
             }
-            while (key.Key != ConsoleKey.Enter);
+            while (key.Key != ConsoleKey.Enter); //Пока не нажат enter
 
 
             return counter;
@@ -56,6 +58,7 @@ namespace WinEventLogReader
 
                 if (counter == i)
                 {
+                    //Устанавливаем цвета 
                     Console.BackgroundColor = (ConsoleColor)Enum.Parse(type, ConfigurationManager.AppSettings.Get("HighlightedColor"));
                     Console.ForegroundColor = (ConsoleColor)Enum.Parse(type, ConfigurationManager.AppSettings.Get("HiglightedForegroundColor"));
                     Console.WriteLine(menuItems[i]);

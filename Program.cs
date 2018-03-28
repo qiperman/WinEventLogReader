@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
-using System.Linq;
+
 
 namespace WinEventLogReader
 {
@@ -10,7 +7,10 @@ namespace WinEventLogReader
     {
         static void Main()
         {
+
+            //Заголовок консоли
             Console.Title = "Event Log Reader";
+
             //Вызов главного меню
             ApplicationMainMenu appMenu = new ApplicationMainMenu();
             appMenu.Print();

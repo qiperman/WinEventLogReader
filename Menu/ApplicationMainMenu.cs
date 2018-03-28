@@ -18,6 +18,7 @@ namespace WinEventLogReader
             evMenu.Print();
         }
 
+        //Настройки
         static void Settings()
         {
             SettingsMenu setMenu = new SettingsMenu();
