@@ -24,8 +24,7 @@ namespace WinEventLogReader
             {
                 menuResult = menu.PrintMenu();
                 //Выполняем действие меню
-                methods[menuResult]();
-                Console.ReadKey();
+                if (menuResult != -1) methods[menuResult]();
             } while (true);
         }
 

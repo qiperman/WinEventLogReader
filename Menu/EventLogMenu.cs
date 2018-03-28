@@ -19,14 +19,18 @@ namespace WinEventLogReader
             do
             {
                 menuResult = menu.PrintMenu();
-                EventChangeLog(items.ToArray()[menuResult]);
-                Console.WriteLine("Нажмите Enter для выхода в главное меню");
-                if (Console.ReadKey().Key == ConsoleKey.Enter)
+                if (menuResult != -1)
                 {
-                    ApplicationMainMenu.Print();
+                    EventChangeLog(items.ToArray()[menuResult]);
+                    Console.WriteLine("Нажмите Enter для выхода в главное меню");
+                    if (Console.ReadKey().Key == ConsoleKey.Enter)
+                    {
+                        ApplicationMainMenu.Print();
+                    }
                 }
 
-            } while (true);
+            } while (menuResult != -1);
+            ApplicationMainMenu.Print();
         }
 
         //Делаем тут что то с выбранным журналом

@@ -37,6 +37,11 @@ namespace WinEventLogReader
                     counter++;
                     if (counter == menuItems.Length) counter = 0;
                 }
+                if (key.Key == ConsoleKey.Escape)
+                {
+                    return -1;
+                }
+
             }
             while (key.Key != ConsoleKey.Enter);
 

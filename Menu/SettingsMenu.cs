@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Collections.Specialized;
 
 namespace WinEventLogReader
 {
@@ -23,43 +22,45 @@ namespace WinEventLogReader
             {
                 menuResult = menu.PrintMenu();
                 //Выполняем действие меню
-                methods[menuResult]();
-                Console.ReadKey();
-            } while (true);
+                if (menuResult!=-1) methods[menuResult]();
+                
+            } while (menuResult !=-1);
+            ApplicationMainMenu.Print();
         }
 
         static void HighlightedColor()
         {
-            ChangeAppSettings("HighlightedColor", ColorMenu());
+            ChangeAppSettings("HighlightedColor");
 
         }
 
         static void HiglightedForegroundColor()
         {
-            ChangeAppSettings("HiglightedForegroundColor", ColorMenu());
+            ChangeAppSettings("HiglightedForegroundColor");
 
         }
 
         static void TextColor()
         {
-            ChangeAppSettings("TextColor", ColorMenu());
+            ChangeAppSettings("TextColor");
         }
 
         static void ConsoleColor()
         {
-            ChangeAppSettings("ConsoleColor", ColorMenu());
+            ChangeAppSettings("ConsoleColor");
         }
 
-        static private void ChangeAppSettings(string name, string color)
+        static private void ChangeAppSettings(string name)
         {
-
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-
-            config.AppSettings.Settings[name].Value = color;
-            config.Save(ConfigurationSaveMode.Modified);
-            ConfigurationManager.RefreshSection("appSettings");
-
-            ApplicationMainMenu.Print();
+            string color = ColorMenu();
+            if (color != null)
+            {
+                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                config.AppSettings.Settings[name].Value = color;
+                config.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection("appSettings");
+                Print();
+            }
         }
 
         static private string ColorMenu()
@@ -71,7 +72,11 @@ namespace WinEventLogReader
             do
             {
                 menuResult = colorsMenu.PrintMenu();
-                return colors[menuResult];
+                if (menuResult != -1) return colors[menuResult];
+
+                Print();
+                return null;
+                
             } while (true);
 
         }
