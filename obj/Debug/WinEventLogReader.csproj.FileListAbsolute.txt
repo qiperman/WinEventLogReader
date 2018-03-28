@@ -4,3 +4,4 @@ C:\Users\Виктор\source\repos\WinEventLogReader\WinEventLogReader\bin\Debug
 C:\Users\Виктор\source\repos\WinEventLogReader\WinEventLogReader\obj\Debug\WinEventLogReader.csproj.CoreCompileInputs.cache
 C:\Users\Виктор\source\repos\WinEventLogReader\WinEventLogReader\obj\Debug\WinEventLogReader.exe
 C:\Users\Виктор\source\repos\WinEventLogReader\WinEventLogReader\obj\Debug\WinEventLogReader.pdb
+C:\Users\Виктор\source\repos\WinEventLogReader\WinEventLogReader\obj\Debug\WinEventLogReader.csprojResolveAssemblyReference.cache
