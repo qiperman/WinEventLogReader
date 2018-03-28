@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
-
 
 namespace WinEventLogReader
 {
@@ -10,7 +10,7 @@ namespace WinEventLogReader
     {
         static void Main()
         {
-
+            Console.BackgroundColor = (ConsoleColor)Enum.Parse(typeof(ConsoleColor), ConfigurationSettings.AppSettings.Get("ConsoleColor"));
             //Вызов главного меню
             ApplicationMainMenu.Print();
         }
@@ -21,14 +21,14 @@ namespace WinEventLogReader
     class ApplicationMainMenu
     {
         //Элементы меню
-        static IEnumerable<string> items { get; set; } = new string[]{"Выбрать журнал","Выход"};
+        static IEnumerable<string> items { get; set; } = new string[]{"Выбрать журнал","Настройки","Выход"};
         //Меню
         static ConsoleMenu menu { get; set; } = menu = new ConsoleMenu(items);
 
         static public void Print()
         {
             //Методы меню 
-            method[] methods = new method[] { ShowEnentLogs, Exit };
+            method[] methods = new method[] { ShowEnentLogs, Settings ,Exit };
 
             //Выбранное меню
             int menuResult;
@@ -49,11 +49,65 @@ namespace WinEventLogReader
             EventLogMenu.PrintEventMenu();
         }
 
+        static void Settings()
+        {
+            SettingsMenu.Print();
+        }
+
         //Выход из приложения
         static void Exit()
         {
             Environment.Exit(0);
         }
+    }
+
+    //Меню настроек
+    class SettingsMenu
+    {
+        static IEnumerable<string> items { get; set; } = new string[] { "Цвет выделения", "Цвет консоли" };
+        static ConsoleMenu menu { get; set; } = new ConsoleMenu(items);
+        delegate void method();
+
+        static public void Print()
+        {
+            //Методы меню 
+            method[] methods = new method[] { HighlightedColor, ChangeConsoleColor };
+
+            //Выбранное меню
+            int menuResult;
+            do
+            {
+                menuResult = menu.PrintMenu();
+                //Выполняем действие меню
+                methods[menuResult]();
+                Console.ReadKey();
+            } while (true);
+        }
+
+        static void HighlightedColor()
+        {
+            ConfigurationSettings.AppSettings.Set("HighlightedColor", ColorMenu());
+        }
+
+        static void ChangeConsoleColor()
+        {
+            ColorMenu();
+        }
+
+        private static string ColorMenu()
+        {
+            string[] colors = Enum.GetNames(typeof(ConsoleColor));
+            ConsoleMenu colorsMenu = new ConsoleMenu(colors);
+
+            int menuResult;
+            do
+            {
+                menuResult = colorsMenu.PrintMenu();
+                return colors[menuResult];
+            } while (true);
+
+        }
+
     }
 
     //Список журналов
@@ -175,15 +229,18 @@ namespace WinEventLogReader
             do
             {
                 Console.Clear();
+
                 for (int i = 0; i < menuItems.Length; i++)
                 {
+
                     if (counter == i)
                     {
-                        Console.BackgroundColor = ConsoleColor.Cyan;
-                        Console.ForegroundColor = ConsoleColor.Black;
+                        Type type = typeof(ConsoleColor);
+                        Console.BackgroundColor = (ConsoleColor)Enum.Parse(type, ConfigurationSettings.AppSettings.Get("HighlightedColor"));
+                        Console.ForegroundColor = (ConsoleColor)Enum.Parse(type, ConfigurationSettings.AppSettings.Get("HiglightedForegroundColor"));
                         Console.WriteLine(menuItems[i]);
-                        Console.BackgroundColor = ConsoleColor.Black;
-                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.BackgroundColor = (ConsoleColor)Enum.Parse(type, ConfigurationSettings.AppSettings.Get("ConsoleColor"));
+                        Console.ForegroundColor = (ConsoleColor)Enum.Parse(type, ConfigurationSettings.AppSettings.Get("TextColor"));
                     }
                     else
                         Console.WriteLine(menuItems[i]);
